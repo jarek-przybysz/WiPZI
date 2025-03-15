@@ -63,7 +63,7 @@ public class Exercise1
                 Pattern pattern = Pattern.compile("\\([0-9]{3}\\) ?[0-9-]+");
                 Matcher matcher = pattern.matcher(content);
                 while(matcher.find()) {
-                String text = matcher.group();
+                    String text = matcher.group();
                     //System.out.println(text);
                     results.add(text);
                 }
@@ -172,5 +172,5 @@ public class Exercise1
                     "8692859252",
                     "1126740391",
                     "1765449317",
-                    };
+            };
 }
