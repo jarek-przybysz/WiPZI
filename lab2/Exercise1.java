@@ -1,3 +1,4 @@
+import com.beust.jcommander.converters.IParameterSplitter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.tika.exception.TikaException;
@@ -89,8 +90,22 @@ public class Exercise1
         System.out.println("Running exercise 1b...");
         LinkedList <String> results = new LinkedList <>();
         // TODO
+        AutoDetectParser parser = new AutoDetectParser();
+        Metadata metadata = new Metadata();
+        ZipFile file = new ZipFile("Exercise1.zip");
+        Enumeration<? extends ZipEntry> entries = file.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            InputStream stream = file.getInputStream(entry);
+            BodyContentHandler handler = new BodyContentHandler();
+            PhoneExtractingContentHandler phoneHandler = new PhoneExtractingContentHandler(handler, metadata);
+            parser.parse(stream, phoneHandler, metadata);
+            for (String phoneNumber : metadata.getValues("phonenumbers")) {
+                results.add(phoneNumber);
+            }
+        }
 
-        return new LinkedList <>(results);
+        return results;
     }
 
 
